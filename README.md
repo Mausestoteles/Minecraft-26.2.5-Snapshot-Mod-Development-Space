@@ -11,13 +11,15 @@
 ## 📦 Was ist das hier?
 
 Ein schlankes Workspace-Setup, das die **dekompilierten / entpackten Minecraft-Klassen**
-als reine **Compile-Referenz** verwendet und dir erlaubt, eigene Mods (oder Tools, Agents,
-Patches, Analyse-Skripte …) gegen die echten MC-Symbole zu schreiben — **ohne** Fabric,
-NeoForge, Forge oder MCP. Reines Java + Gradle.
+als reine **Compile-Referenz** verwendet und dir zwei parallele Wege zum Modden bietet:
+
+1. **Loader-frei** (`Mod/`) – reines Java + Gradle, geladen als Java-Agent oder via eigenem Launcher.
+2. **Fabric** (`ModFabric/`) – klassisches Loom-Setup mit Yarn-Mappings und Mixins.
 
 Gedacht für:
 - 🔬 **Snapshot-Reverse-Engineering** (neue MC-Versionen bevor Loader nachziehen)
-- 🧪 **Java-Agent-Mods** (ASM/ByteBuddy-Transformer)
+- 🧪 **Java-Agent-Mods** (ASM/ByteBuddy-Transformer) — siehe `Mod/`
+- 🧶 **Fabric-Mods** mit Loom/Yarn/Mixin — siehe `ModFabric/`
 - 🛠️ **Eigene Loader / Launcher / Pack-Tools**
 - 📚 **Lernen**, wie der MC-Client intern aufgebaut ist (Blaze3D, Netcode, Worldgen …)
 
