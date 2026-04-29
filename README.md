@@ -1,4 +1,4 @@
-# 🧱 MC 26.2-snapshot-5 Dev-Workspace
+# MC 26.2-snapshot-5 Dev-Workspace
 
 > **Öffentliche Vorlage** zum Entwickeln von Mods gegen **Minecraft 26.2 Snapshot 5**
 > (Java 25 / `java-runtime-epsilon`, Protocol `1073742135`, World-Version `4889`).
