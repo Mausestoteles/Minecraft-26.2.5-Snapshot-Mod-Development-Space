@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "package": "dev.mc26.examplefabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+

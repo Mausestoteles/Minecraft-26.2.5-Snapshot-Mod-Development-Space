@@ -76,21 +76,25 @@ Gedacht für:
 - **Gradle 8.10+** (oder Wrapper hinzufügen via `gradle wrapper`)
 - IntelliJ IDEA (empfohlen) oder VS Code mit Java-Extension
 
-### Bauen
+### Variante A — Loader-freie Mod (`Mod/`)
 ```powershell
 cd Mod
 gradle build
+java -javaagent:..\Mc_26.2.5snap\Minecraft\compiledjar\examplemod-0.1.0.jar `
+     -jar ..\Mc_26.2.5snap\Minecraft\reference\26.2-snapshot-5.jar
 ```
-Die fertige Jar landet automatisch in
-`Mc_26.2.5snap/Minecraft/compiledjar/examplemod-0.1.0.jar`.
-
-### Mod starten (Agent-Modus)
-```powershell
-java -javaagent:Mc_26.2.5snap\Minecraft\compiledjar\examplemod-0.1.0.jar `
-     -jar Mc_26.2.5snap\Minecraft\reference\26.2-snapshot-5.jar
-```
-
 > Mehr Details (Classpath-Injection, Bytecode-Patch, Bootstrap) → [`Mod/README.md`](Mod/README.md)
+
+### Variante B — Fabric-Mod (`ModFabric/`)
+```powershell
+cd ModFabric
+gradle build           # baut + remappt + kopiert nach compiledjar/
+gradle runClient       # startet Dev-Client mit deinem Mod
+gradle runServer       # dedizierter Dev-Server
+```
+Versionen (Yarn / Loader / Fabric API) stehen zentral in `ModFabric/gradle.properties`
+und sollten regelmäßig gegen <https://fabricmc.net/develop> abgeglichen werden.
+> Mehr Details (Mixins, Split Source Sets) → [`ModFabric/README.md`](ModFabric/README.md)
 
 ---
 

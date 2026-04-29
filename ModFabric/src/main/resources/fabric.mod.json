@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "examplefabric",
+  "version": "${version}",
+  "name": "Example Fabric Mod",
+  "description": "Beispiel-Fabric-Mod für Minecraft ${mc_version}.",
+  "authors": ["You"],
+  "contact": {
+    "homepage": "https://github.com/Mausestoteles/26.2.5snapDev"
+  },
+  "license": "MIT",
+  "icon": "assets/examplefabric/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main":   ["dev.mc26.examplefabric.ExampleFabricMod"],
+    "client": ["dev.mc26.examplefabric.client.ExampleFabricClient"]
+  },
+  "mixins": [
+    "examplefabric.mixins.json",
+    {
+      "config": "examplefabric.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft":    "${mc_version}",
+    "java":         ">=25",
+    "fabric-api":   "*"
+  }
+}
+

@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "dev.mc26.examplefabric.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "TitleScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+
