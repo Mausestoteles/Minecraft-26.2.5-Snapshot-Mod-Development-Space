@@ -12,10 +12,12 @@ Alle Versionen stehen in [`gradle.properties`](gradle.properties).
 Aktuelle Werte holst du dir frisch von **https://fabricmc.net/develop**:
 
 ```properties
-mc.version=26.2-snapshot-5
-yarn.mappings=26.2-snapshot-5+build.1
-loader.version=0.16.10
-fabric.api.version=0.110.0+26.2-snapshot-5
+minecraft_version=26.2-snapshot-5
+yarn_mappings=26.2-snapshot-5+build.1
+loader_version=0.19.2
+fabric_api_version=0.147.1+26.2
+loom_version=1.16-SNAPSHOT
+java_version=25
 ```
 
 > 📌 Solange für 26.2-snapshot-5 noch **keine** Yarn-Mappings veröffentlicht

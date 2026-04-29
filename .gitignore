@@ -1,0 +1,18 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+out/
+bin/
+
+# Gradle / Loom (Subprojekte)
+**/.gradle/
+**/build/
+**/run/
+**/.loom-cache/
+**/remappedSrc/
+
+# OS
+Thumbs.db
+.DS_Store
+

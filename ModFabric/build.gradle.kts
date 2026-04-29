@@ -1,30 +1,30 @@
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 plugins {
-    id("fabric-loom") version "1.9-SNAPSHOT"
+    id("fabric-loom")
     `maven-publish`
 }
 
-val modId: String by project
-val modGroup: String by project
-val modVersion: String by project
+val mod_id: String by project
+val mod_group: String by project
+val mod_version: String by project
 
-val mcVersion: String by project
-val yarnMappings: String by project
-val loaderVersion: String by project
-val fabricApiVersion: String by project
-val mcJavaVersion: String by project
+val minecraft_version: String by project
+val yarn_mappings: String by project
+val loader_version: String by project
+val fabric_api_version: String by project
+val java_version: String by project
 
-group = modGroup
-version = modVersion
+group = mod_group
+version = mod_version
 
 base {
-    archivesName.set(modId)
+    archivesName.set(mod_id)
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(mcJavaVersion.toInt()))
+        languageVersion.set(JavaLanguageVersion.of(java_version.toInt()))
     }
     withSourcesJar()
 }
@@ -36,12 +36,12 @@ repositories {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:$mcVersion")
-    mappings("net.fabricmc:yarn:$yarnMappings:v2")
-    modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
+    minecraft("com.mojang:minecraft:$minecraft_version")
+    mappings("net.fabricmc:yarn:$yarn_mappings:v2")
+    modImplementation("net.fabricmc:fabric-loader:$loader_version")
 
-    // Fabric API – auskommentieren falls du sie nicht brauchst
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
+    // Fabric API – auskommentieren falls nicht benötigt
+    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
 }
 
 loom {
@@ -52,7 +52,7 @@ loom {
     splitEnvironmentSourceSets()
 
     mods {
-        create(modId) {
+        create(mod_id) {
             sourceSet("main")
             sourceSet("client")
         }
@@ -61,9 +61,9 @@ loom {
 
 tasks.processResources {
     val tokens = mapOf(
-        "version"        to modVersion,
-        "mc_version"     to mcVersion,
-        "loader_version" to loaderVersion
+        "version"        to mod_version,
+        "mc_version"     to minecraft_version,
+        "loader_version" to loader_version
     )
     inputs.properties(tokens)
     filesMatching("fabric.mod.json") {
@@ -73,16 +73,16 @@ tasks.processResources {
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
-    options.release.set(mcJavaVersion.toInt())
+    options.release.set(java_version.toInt())
 }
 
 tasks.jar {
-    from("LICENSE") { rename { "${it}_${modId}" } }
+    from("LICENSE") { rename { "${it}_$mod_id" } }
     manifest {
         attributes(
-            "Mod-Id"            to modId,
-            "Mod-Version"       to modVersion,
-            "Minecraft-Version" to mcVersion
+            "Mod-Id"            to mod_id,
+            "Mod-Version"       to mod_version,
+            "Minecraft-Version" to minecraft_version
         )
     }
 }
