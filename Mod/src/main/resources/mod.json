@@ -1,0 +1,12 @@
+{
+  "id": "examplemod",
+  "version": "0.1.0",
+  "name": "Example Mod",
+  "description": "Mod für Minecraft 26.2-snapshot-5",
+  "minecraft": "26.2-snapshot-5",
+  "javaVersion": 25,
+  "entrypoints": {
+    "main": "dev.mc26.examplemod.ExampleMod::init"
+  }
+}
+
