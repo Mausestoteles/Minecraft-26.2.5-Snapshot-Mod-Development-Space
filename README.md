@@ -1,4 +1,4 @@
-# MC 26.2-snapshot-5 Dev-Workspace
+# 🧱 MC 26.2-snapshot-5 Dev-Workspace
 
 > **Öffentliche Vorlage** zum Entwickeln von Mods gegen **Minecraft 26.2 Snapshot 5**
 > (Java 25 / `java-runtime-epsilon`, Protocol `1073742135`, World-Version `4889`).
@@ -43,10 +43,9 @@ Gedacht für:
 │       │   ├── com/mojang/blaze3d/...       #   Render-Engine (OpenGL/Vulkan/Shader)
 │       │   ├── com/mojang/math/...
 │       │   └── com/mojang/realmsclient/...
-│       └── compiledjar/                     # Output-Slot für deine fertige Mod-Jar
-│           └── 26.2-snapshot-5.jar
+│       └── compiledjar/                     # Output-Slot für deine fertigen Mod-Jars
 │
-├── Mod/                     ← 🛠️ HIER WIRD ENTWICKELT
+├── Mod/                     ← 🛠️ LOADER-FREIE Java-Agent-Mod
 │   ├── build.gradle.kts     #   bindet die Reference-Jar als compileOnly ein
 │   ├── settings.gradle.kts
 │   ├── gradle.properties    #   mod.id, version, mc.version, java-version
@@ -57,17 +56,38 @@ Gedacht für:
 │           ├── mod.json
 │           └── META-INF/MANIFEST.MF         # macht die Jar Java-Agent-fähig
 │
+├── ModFabric/               ← 🧶 FABRIC-MOD (Loom + Yarn + Mixin)
+│   ├── build.gradle.kts     #   fabric-loom Plugin, runClient/runServer Tasks
+│   ├── settings.gradle.kts  #   pluginManagement mit Fabric-Maven
+│   ├── gradle.properties    #   minecraft_version / yarn_mappings / loader_version / fabric_api_version
+│   ├── README.md            #   Anleitung Versionen pflegen, runClient, Mixins
+│   └── src/
+│       ├── main/                            # Common (Server + Client)
+│       │   ├── java/dev/mc26/examplefabric/ExampleFabricMod.java
+│       │   └── resources/
+│       │       ├── fabric.mod.json
+│       │       └── examplefabric.mixins.json
+│       └── client/                          # Client-Only Source-Set
+│           ├── java/dev/mc26/examplefabric/client/
+│           │   ├── ExampleFabricClient.java
+│           │   └── mixin/TitleScreenMixin.java
+│           └── resources/examplefabric.client.mixins.json
+│
 └── dev/                     ← 🗒️ Notizen, Scratch, Recherche
     └── dev.txt
 ```
 
-### Rollen der drei Top-Ordner
+### Rollen der Top-Ordner
 
-| Ordner            | Zweck                                           | Editieren? |
-|-------------------|--------------------------------------------------|------------|
-| `Mc_26.2.5snap/`  | **Referenz-Quelle** – Vanilla-MC zum Nachschlagen | ❌ nein     |
-| `Mod/`            | **Dein Mod-Projekt** – hier wird gecodet & gebaut | ✅ ja       |
-| `dev/`            | Freier Notiz-/Scratch-Space                      | ✅ ja       |
+| Ordner            | Zweck                                                       | Editieren? |
+|-------------------|--------------------------------------------------------------|------------|
+| `Mc_26.2.5snap/`  | **Referenz-Quelle** – Vanilla-MC zum Nachschlagen            | ❌ nein     |
+| `Mod/`            | **Loader-freie Mod** (reines Java + Java-Agent)              | ✅ ja       |
+| `ModFabric/`      | **Fabric-Mod** (Loom, Yarn-Mappings, Mixins, runClient)      | ✅ ja       |
+| `dev/`            | Freier Notiz-/Scratch-Space                                  | ✅ ja       |
+
+> Beide Mod-Projekte (`Mod/` und `ModFabric/`) sind **unabhängige Gradle-Builds**
+> und legen ihre fertige Jar jeweils in `Mc_26.2.5snap/Minecraft/compiledjar/` ab.
 
 ---
 
@@ -123,6 +143,7 @@ Aus `Mc_26.2.5snap/Minecraft/reference/version.json`:
 In IntelliJ erkennt der `compileOnly(files(...))`-Eintrag in `Mod/build.gradle.kts`
 die Reference-Jar automatisch — **Auto-Complete, Go-to-Definition und Refactor-Vorschau**
 funktionieren auf allen `net.minecraft.*` und `com.mojang.*` Klassen.
+In `ModFabric/` übernimmt das Loom mit Yarn-gemappten Sourcen automatisch.
 
 Empfohlene Einstiegspunkte:
 - `net.minecraft.client.main.Main` – Client-Boot
@@ -137,9 +158,11 @@ Empfohlene Einstiegspunkte:
 
 1. Repo forken / kopieren.
 2. `Mc_26.2.5snap/` mit deiner eigenen entpackten MC-Version befüllen
-   (oder `mc.version` in `Mod/gradle.properties` ändern).
-3. Paket `dev.mc26.examplemod` umbenennen → `mod.id`, `mod.group` in `gradle.properties` anpassen.
-4. Loslegen.
+   (oder `mc.version` / `minecraft_version` in den jeweiligen `gradle.properties` ändern).
+3. Pakete `dev.mc26.examplemod` bzw. `dev.mc26.examplefabric` umbenennen → `mod.id` / `mod_id`,
+   `mod.group` / `mod_group` in `gradle.properties` anpassen.
+4. Nicht benötigte Variante (`Mod/` oder `ModFabric/`) einfach löschen.
+5. Loslegen.
 
 PRs / Issues mit Verbesserungen am Build-Setup sind willkommen.
 
@@ -147,15 +170,15 @@ PRs / Issues mit Verbesserungen am Build-Setup sind willkommen.
 
 ## ⚖️ Rechtliches
 
-- **Diese Vorlage** (Build-Skripte, Struktur, README, Beispielcode in `Mod/src`)
+- **Diese Vorlage** (Build-Skripte, Struktur, README, Beispielcode in `Mod/src` und `ModFabric/src`)
   ist frei verwendbar — behandle sie wie *Public Domain / MIT*.
 - **Minecraft-Inhalte** unter `Mc_26.2.5snap/Minecraft/reference/`
   (Klassen, Assets, `pack.png`, `LICENSE`, Mojang-Signaturen) gehören
   **Mojang Studios / Microsoft** und unterliegen dem
   [Minecraft EULA](https://www.minecraft.net/eula). Sie sind **nicht** Teil
   der Vorlage und werden hier nur als lokale Compile-Referenz vorausgesetzt.
-- **Verteile keine Vanilla-MC-Klassen** mit deiner Mod-Jar — das `compileOnly`
-  im Build sorgt bereits dafür, dass sie nicht mitgepackt werden.
+- **Verteile keine Vanilla-MC-Klassen** mit deiner Mod-Jar — `compileOnly` (Variante A)
+  bzw. Loom's Remapping (Variante B) sorgen bereits dafür, dass sie nicht mitgepackt werden.
 - Mods, die Vanilla-Logik modifizieren, sind im Rahmen des EULA erlaubt,
   solange sie kostenlos verteilt werden und keine geschützten Assets enthalten.
 
